@@ -16,6 +16,9 @@ import org.bukkit.metadata.FixedMetadataValue
 import org.bukkit.plugin.java.JavaPlugin
 
 class Miner : JavaPlugin(), Listener {
+    private val messenger by lazy {
+        Messenger(this)
+    }
     private val nms: NMS by lazy {
         when (server.bukkitVersion) {
             "1.16.5-R0.1-SNAPSHOT" -> NmsV001016005()
@@ -34,8 +37,11 @@ class Miner : JavaPlugin(), Listener {
 
         val metadataKeyBreak = event.player.metadataKeyBreak
         if (event.block.hasMetadata(metadataKeyBreak)) {
+            val data = event.block.getMetadata(metadataKeyBreak).first().value() as MiningData
             if (event.player.inventory.itemInMainHand.isPickaxe) {
-                event.player.spawnExp(event.expToDrop)
+                nms.dropExperience(event.player, event.expToDrop)
+                data.addBrokenBlock(event.block)
+                data.addExp(event.expToDrop)
                 event.expToDrop = 0
                 return
             }
@@ -55,18 +61,21 @@ class Miner : JavaPlugin(), Listener {
             unCheckedBlocks.addAll(relativeBlocks)
         }
 
+        val miningData = MiningData(event.player, event.block.type)
         checkedBlocks.forEach { ore ->
             if (event.player.inventory.itemInMainHand.isPickaxe) {
-                val metadataValue = FixedMetadataValue(this, null)
+                val metadataValue = FixedMetadataValue(this, miningData)
                 ore.setMetadata(metadataKeyBreak, metadataValue)
                 if (ore.drops.isNotEmpty()) {
-                    val metadataDropValue = FixedMetadataValue(this, null)
+                    val metadataDropValue = FixedMetadataValue(this, miningData)
                     ore.setMetadata(event.player.metadataKeyDrop, metadataDropValue)
                 }
                 nms.breakBlock(event.player, ore)
                 ore.removeMetadata(metadataKeyBreak, this)
             }
         }
+
+        messenger.send(event.player, miningData.asString)
     }
 
     @EventHandler(priority = EventPriority.MONITOR)
@@ -87,10 +96,6 @@ class Miner : JavaPlugin(), Listener {
     }
 
     override fun onDisable() {}
-
-    private fun Player.spawnExp(amount: Int) {
-        world.spawn(location, ExperienceOrb::class.java).experience = amount
-    }
 
     private val Player.metadataKeyBreak: String
         get() = "${this@Miner.name}_${name}_break"

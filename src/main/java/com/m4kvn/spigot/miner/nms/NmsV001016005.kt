@@ -1,9 +1,6 @@
 package com.m4kvn.spigot.miner.nms
 
-import net.minecraft.server.v1_16_R3.BlockPosition
-import net.minecraft.server.v1_16_R3.EntityItem
-import net.minecraft.server.v1_16_R3.GameRules
-import net.minecraft.server.v1_16_R3.WorldServer
+import net.minecraft.server.v1_16_R3.*
 import org.bukkit.block.Block
 import org.bukkit.craftbukkit.v1_16_R3.CraftWorld
 import org.bukkit.craftbukkit.v1_16_R3.entity.CraftPlayer
@@ -27,6 +24,19 @@ class NmsV001016005 : NMS {
             val entityItem = createEntityItem(world, player.position, craftItemStack)
             world.addEntity(entityItem)
         }
+    }
+
+    override fun dropExperience(player: Player, amount: Int) {
+        val position = player.position
+        val world = (player.world as CraftWorld).handle
+        val expEntity = EntityExperienceOrb(
+            world,
+            position.x + 0.5,
+            position.y + 0.5,
+            position.z + 0.5,
+            amount
+        )
+        world.addEntity(expEntity)
     }
 
     private fun createEntityItem(
