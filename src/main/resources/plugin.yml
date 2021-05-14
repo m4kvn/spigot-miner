@@ -1,0 +1,4 @@
+name: Miner
+version: @version@
+main: com.m4kvn.spigot.miner.Miner
+api-version: 1.16
