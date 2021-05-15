@@ -4,7 +4,6 @@ import com.m4kvn.spigot.miner.nms.NMS
 import com.m4kvn.spigot.miner.nms.NmsV001016005
 import org.bukkit.Material
 import org.bukkit.block.Block
-import org.bukkit.entity.ExperienceOrb
 import org.bukkit.entity.Player
 import org.bukkit.event.EventHandler
 import org.bukkit.event.EventPriority
