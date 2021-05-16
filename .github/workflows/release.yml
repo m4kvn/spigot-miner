@@ -1,8 +1,9 @@
-name: Build
+name: Release
 
 on:
   push:
-    branches: [ master ]
+    tags:
+    - "*"
 
 jobs:
   build:
@@ -20,8 +21,15 @@ jobs:
       run: chmod +x gradlew
     - name: Build with Gradle
       run: ./gradlew build
-    - name: Upload Artifact
-      uses: actions/upload-artifact@v2
+    - name: Create Release
+      uses: "marvinpinto/action-automatic-releases@latest"
       with:
-        name: plugin
-        path: ./build/libs/*.jar
+        repo_token: "${{ secrets.GITHUB_TOKEN }}"
+        prerelease: false
+        files: |
+          ./build/libs/*.jar
+#     - name: Upload Artifact
+#       uses: actions/upload-artifact@v2
+#       with:
+#         name: plugin
+#         path: ./build/libs/*.jar
