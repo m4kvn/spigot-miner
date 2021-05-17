@@ -115,6 +115,7 @@ class Miner : JavaPlugin(), Listener {
 
     private val Block.isOre: Boolean
         get() = when (type) {
+            Material.OBSIDIAN,
             Material.GLOWSTONE,
             Material.COAL_ORE,
             Material.IRON_ORE,

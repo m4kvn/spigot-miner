@@ -9,6 +9,19 @@ This is Minecraft Spigot Plugin for mining ores simply.
 - Drop the experience orbs to the player's position
 - Do not run during sneak
 
+## Default Ores
+- OBSIDIAN
+- GLOWSTONE
+- COAL_ORE
+- IRON_ORE
+- GOLD_ORE
+- REDSTONE_ORE
+- LAPIS_ORE
+- NETHER_QUARTZ_ORE
+- NETHER_GOLD_ORE
+- EMERALD_ORE
+- DIAMOND_ORE
+
 ## Spigot Versions
 - Spigot-1.16.5
 
