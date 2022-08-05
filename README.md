@@ -30,7 +30,7 @@ This is Minecraft Spigot Plugin for mining ores simply.
 | spigot | miner |
 | :-- | :-- |
 | 1.16.* | [0.1.2](https://github.com/m4kvn/spigot-miner/releases/tag/0.1.2) |
-| 1.19.* | |
+| 1.19.* | [1.0.0](https://github.com/m4kvn/spigot-miner/releases/tag/1.0.0) |
 
 ## Download
 
