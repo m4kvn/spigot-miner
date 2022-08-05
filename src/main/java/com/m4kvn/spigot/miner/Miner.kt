@@ -1,7 +1,7 @@
 package com.m4kvn.spigot.miner
 
 import com.m4kvn.spigot.miner.nms.NMS
-import com.m4kvn.spigot.miner.nms.NmsV001016005
+import com.m4kvn.spigot.miner.nms.NMS_V1_19_R1
 import org.bukkit.Material
 import org.bukkit.block.Block
 import org.bukkit.entity.Player
@@ -14,15 +14,13 @@ import org.bukkit.inventory.ItemStack
 import org.bukkit.metadata.FixedMetadataValue
 import org.bukkit.plugin.java.JavaPlugin
 
+@Suppress("Unused")
 class Miner : JavaPlugin(), Listener {
     private val messenger by lazy {
         Messenger(this)
     }
     private val nms: NMS by lazy {
-        when (server.bukkitVersion) {
-            "1.16.5-R0.1-SNAPSHOT" -> NmsV001016005()
-            else -> throw Exception()
-        }
+        NMS_V1_19_R1()
     }
 
     @EventHandler(priority = EventPriority.MONITOR)
