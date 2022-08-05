@@ -1,7 +1,9 @@
 # spigot-miner
+
 This is Minecraft Spigot Plugin for mining ores simply.
 
 ## Features
+
 - Reduces the durability of the pickaxe
 - Change Player statistics
 - Compatible with durability enchantments
@@ -10,6 +12,7 @@ This is Minecraft Spigot Plugin for mining ores simply.
 - Do not run during sneak
 
 ## Default Ores
+
 - OBSIDIAN
 - GLOWSTONE
 - COAL_ORE
@@ -23,7 +26,12 @@ This is Minecraft Spigot Plugin for mining ores simply.
 - DIAMOND_ORE
 
 ## Spigot Versions
-- Spigot-1.16.5
+
+| spigot | miner |
+| :-- | :-- |
+| 1.16.* | [0.1.2](https://github.com/m4kvn/spigot-miner/releases/tag/0.1.2) |
+| 1.19.* | |
 
 ## Download
+
 Download from [Releases](https://github.com/m4kvn/spigot-miner/releases).
