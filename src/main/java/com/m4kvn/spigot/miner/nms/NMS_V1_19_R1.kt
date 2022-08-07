@@ -60,7 +60,7 @@ class NMS_V1_19_R1 : NMS {
             dropPosition.z + d2,
             itemStack,
         )
-        entityItem.n()
+        entityItem.resetPickupDelay()
         return entityItem
     }
 }

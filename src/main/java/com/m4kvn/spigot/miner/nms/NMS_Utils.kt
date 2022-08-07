@@ -5,11 +5,14 @@ import net.minecraft.server.level.EntityPlayer
 import net.minecraft.server.level.PlayerInteractManager
 import net.minecraft.server.level.WorldServer
 import net.minecraft.util.RandomSource
+import net.minecraft.world.entity.item.EntityItem
 import net.minecraft.world.item.ItemStack
 import net.minecraft.world.level.GameRules
 import org.bukkit.entity.Player
 
 val EntityPlayer.playerInteractManager: PlayerInteractManager get() = d
+
+fun EntityItem.resetPickupDelay() = o()
 
 fun PlayerInteractManager.breakBlock(blockPosition: BlockPosition) = a(blockPosition)
 
