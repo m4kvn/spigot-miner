@@ -2,11 +2,11 @@ import org.apache.tools.ant.filters.ReplaceTokens
 
 plugins {
     id 'java'
-    id 'org.jetbrains.kotlin.jvm' version '1.5.0'
+    id 'org.jetbrains.kotlin.jvm' version '1.7.0'
 }
 
 group = 'com.m4kvn.spigot'
-version = '0.1.2'
+version = '1.1.0-1.19-R0.1-SNAPSHOT'
 
 sourceCompatibility = '1.8'
 targetCompatibility = '1.8'
@@ -29,18 +29,20 @@ configurations {
 }
 
 dependencies {
-    compileOnly 'org.spigotmc:spigot-api:1.16.5-R0.1-SNAPSHOT'
-    embed "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
     compileOnly fileTree(dir: 'libs', include: ['*.jar'])
+    compileOnly 'org.spigotmc:spigot-api:1.19-R0.1-SNAPSHOT'
+    embed "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
 }
 
 processResources {
+    duplicatesStrategy = DuplicatesStrategy.INCLUDE
     from(sourceSets.main.resources.srcDirs) {
         filter ReplaceTokens, tokens: [version: version]
     }
 }
 
 jar {
+    exclude "META-INF/versions/9/module-info.class"
     from configurations.embed.collect { it.isDirectory() ? it : zipTree(it) }
 }
 

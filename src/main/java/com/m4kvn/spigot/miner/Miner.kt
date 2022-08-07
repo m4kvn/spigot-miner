@@ -1,7 +1,7 @@
 package com.m4kvn.spigot.miner
 
 import com.m4kvn.spigot.miner.nms.NMS
-import com.m4kvn.spigot.miner.nms.NmsV001016005
+import com.m4kvn.spigot.miner.nms.NMS_V1_19_R1
 import org.bukkit.Material
 import org.bukkit.block.Block
 import org.bukkit.entity.Player
@@ -14,15 +14,13 @@ import org.bukkit.inventory.ItemStack
 import org.bukkit.metadata.FixedMetadataValue
 import org.bukkit.plugin.java.JavaPlugin
 
+@Suppress("Unused")
 class Miner : JavaPlugin(), Listener {
     private val messenger by lazy {
         Messenger(this)
     }
     private val nms: NMS by lazy {
-        when (server.bukkitVersion) {
-            "1.16.5-R0.1-SNAPSHOT" -> NmsV001016005()
-            else -> throw Exception()
-        }
+        NMS_V1_19_R1()
     }
 
     @EventHandler(priority = EventPriority.MONITOR)
@@ -103,31 +101,42 @@ class Miner : JavaPlugin(), Listener {
         get() = "${this@Miner.name}_${name}_drop"
 
     private val ItemStack.isPickaxe: Boolean
-        get() = when (type) {
-            Material.GOLDEN_PICKAXE,
-            Material.DIAMOND_PICKAXE,
-            Material.IRON_PICKAXE,
-            Material.NETHERITE_PICKAXE,
-            Material.STONE_PICKAXE,
-            Material.WOODEN_PICKAXE -> true
-            else -> false
-        }
+        get() = pickaxes.contains(type)
+
+    private val pickaxes = listOf(
+        Material.DIAMOND_PICKAXE,
+        Material.GOLDEN_PICKAXE,
+        Material.IRON_PICKAXE,
+        Material.NETHERITE_PICKAXE,
+        Material.STONE_PICKAXE,
+        Material.WOODEN_PICKAXE,
+    )
 
     private val Block.isOre: Boolean
-        get() = when (type) {
-            Material.OBSIDIAN,
-            Material.GLOWSTONE,
-            Material.COAL_ORE,
-            Material.IRON_ORE,
-            Material.GOLD_ORE,
-            Material.REDSTONE_ORE,
-            Material.LAPIS_ORE,
-            Material.NETHER_QUARTZ_ORE,
-            Material.NETHER_GOLD_ORE,
-            Material.EMERALD_ORE,
-            Material.DIAMOND_ORE -> true
-            else -> false
-        }
+        get() = ores.contains(type)
+
+    private val ores = listOf(
+        Material.COAL_ORE,
+        Material.COPPER_ORE,
+        Material.DEEPSLATE_COAL_ORE,
+        Material.DEEPSLATE_COPPER_ORE,
+        Material.DEEPSLATE_DIAMOND_ORE,
+        Material.DEEPSLATE_EMERALD_ORE,
+        Material.DEEPSLATE_GOLD_ORE,
+        Material.DEEPSLATE_IRON_ORE,
+        Material.DEEPSLATE_LAPIS_ORE,
+        Material.DEEPSLATE_REDSTONE_ORE,
+        Material.DIAMOND_ORE,
+        Material.EMERALD_ORE,
+        Material.GLOWSTONE,
+        Material.GOLD_ORE,
+        Material.IRON_ORE,
+        Material.LAPIS_ORE,
+        Material.NETHER_GOLD_ORE,
+        Material.NETHER_QUARTZ_ORE,
+        Material.OBSIDIAN,
+        Material.REDSTONE_ORE,
+    )
 
     private fun Block.getRelativeBlocks(distance: Int): List<Block> {
         val blocks = mutableListOf<Block>()
