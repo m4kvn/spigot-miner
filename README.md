@@ -2,7 +2,7 @@
 
 This is Minecraft Spigot Plugin for mining ores simply.
 
-![miner.gif](https://github.com/m4kvn/spigot-miner/blob/master/assets/miner.gif?raw=true)
+https://user-images.githubusercontent.com/18133161/183315923-69ccf72e-8aa6-4b4c-ba56-dcbf1177f995.mp4
 
 ## Features
 
