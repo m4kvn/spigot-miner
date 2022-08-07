@@ -2,6 +2,8 @@
 
 This is Minecraft Spigot Plugin for mining ores simply.
 
+![miner.gif](https://github.com/m4kvn/spigot-miner/blob/master/assets/miner.gif?raw=true)
+
 ## Features
 
 - Reduces the durability of the pickaxe
