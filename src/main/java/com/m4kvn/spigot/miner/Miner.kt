@@ -4,6 +4,7 @@ import com.m4kvn.spigot.miner.nms.NMS
 import com.m4kvn.spigot.miner.nms.NMS_V1_19_R1
 import org.bukkit.Material
 import org.bukkit.block.Block
+import org.bukkit.configuration.file.FileConfiguration
 import org.bukkit.entity.Player
 import org.bukkit.event.EventHandler
 import org.bukkit.event.EventPriority
@@ -72,7 +73,9 @@ class Miner : JavaPlugin(), Listener {
             }
         }
 
-        messenger.send(event.player, miningData.asString)
+        if (config.getBoolean(ConfigKey.DISPLAY_MINING_DATA)) {
+            messenger.send(event.player, miningData.asString)
+        }
     }
 
     @EventHandler(priority = EventPriority.MONITOR)
@@ -89,6 +92,7 @@ class Miner : JavaPlugin(), Listener {
     }
 
     override fun onEnable() {
+        config.load()
         server.pluginManager.registerEvents(this, this)
     }
 
@@ -148,4 +152,18 @@ class Miner : JavaPlugin(), Listener {
         }
         return blocks
     }
+
+    private fun FileConfiguration.load() {
+        addDefaults(mapOf(
+            ConfigKey.DISPLAY_MINING_DATA.name to false,
+        ))
+        options().copyDefaults(true)
+        saveConfig()
+    }
+
+    private fun FileConfiguration.getBoolean(key: ConfigKey) = getBoolean(key.name)
+}
+
+enum class ConfigKey {
+    DISPLAY_MINING_DATA,
 }
