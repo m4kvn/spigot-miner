@@ -52,7 +52,7 @@ https://user-images.githubusercontent.com/18133161/183315923-69ccf72e-8aa6-4b4c-
 | spigot | miner |
 | :-- | :-- |
 | 1.16.* | [0.1.2](https://github.com/m4kvn/spigot-miner/releases/tag/0.1.2) |
-| 1.19.* | [1.1.0](https://github.com/m4kvn/spigot-miner/releases/tag/1.1.0) |
+| 1.19.* | [1.2.0](https://github.com/m4kvn/spigot-miner/releases/tag/1.2.0) |
 
 ## Download
 
