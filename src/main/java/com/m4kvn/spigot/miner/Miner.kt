@@ -2,9 +2,7 @@ package com.m4kvn.spigot.miner
 
 import com.m4kvn.spigot.miner.nms.NMS
 import com.m4kvn.spigot.miner.nms.NMS_V1_19_R1
-import org.bukkit.Material
 import org.bukkit.block.Block
-import org.bukkit.configuration.file.FileConfiguration
 import org.bukkit.entity.Player
 import org.bukkit.event.EventHandler
 import org.bukkit.event.EventPriority
@@ -18,25 +16,28 @@ import org.bukkit.plugin.java.JavaPlugin
 @Suppress("Unused")
 class Miner : JavaPlugin(), Listener {
     private val messenger by lazy {
-        Messenger(this)
+        Messenger(plugin = this)
     }
     private val nms: NMS by lazy {
         NMS_V1_19_R1()
+    }
+    private val config by lazy {
+        MinerConfiguration(plugin = this)
     }
 
     @EventHandler(priority = EventPriority.MONITOR)
     fun onOreBreak(event: BlockBreakEvent) {
         when {
             event.isCancelled -> return
-            !event.block.isOre -> return
+            !event.block.isSupportOre -> return
             event.player.isSneaking -> return
-            !event.player.inventory.itemInMainHand.isPickaxe -> return
+            !event.player.inventory.itemInMainHand.isSupportPickaxe -> return
         }
 
         val metadataKeyBreak = event.player.metadataKeyBreak
         if (event.block.hasMetadata(metadataKeyBreak)) {
             val data = event.block.getMetadata(metadataKeyBreak).first().value() as MiningData
-            if (event.player.inventory.itemInMainHand.isPickaxe) {
+            if (event.player.inventory.itemInMainHand.isSupportPickaxe) {
                 nms.dropExperience(event.player, event.expToDrop)
                 data.addBrokenBlock(event.block)
                 data.addExp(event.expToDrop)
@@ -61,7 +62,7 @@ class Miner : JavaPlugin(), Listener {
 
         val miningData = MiningData(event.player, event.block.type)
         checkedBlocks.forEach { ore ->
-            if (event.player.inventory.itemInMainHand.isPickaxe) {
+            if (event.player.inventory.itemInMainHand.isSupportPickaxe) {
                 val metadataValue = FixedMetadataValue(this, miningData)
                 ore.setMetadata(metadataKeyBreak, metadataValue)
                 if (ore.drops.isNotEmpty()) {
@@ -73,7 +74,7 @@ class Miner : JavaPlugin(), Listener {
             }
         }
 
-        if (config.getBoolean(ConfigKey.DISPLAY_MINING_DATA)) {
+        if (config.displayMiningData) {
             messenger.send(event.player, miningData.asString)
         }
     }
@@ -92,7 +93,7 @@ class Miner : JavaPlugin(), Listener {
     }
 
     override fun onEnable() {
-        config.load()
+        config.initialize()
         server.pluginManager.registerEvents(this, this)
     }
 
@@ -104,43 +105,11 @@ class Miner : JavaPlugin(), Listener {
     private val Player.metadataKeyDrop: String
         get() = "${this@Miner.name}_${name}_drop"
 
-    private val ItemStack.isPickaxe: Boolean
-        get() = pickaxes.contains(type)
+    private val ItemStack.isSupportPickaxe: Boolean
+        get() = config.isSupportPickaxe(type)
 
-    private val pickaxes = listOf(
-        Material.DIAMOND_PICKAXE,
-        Material.GOLDEN_PICKAXE,
-        Material.IRON_PICKAXE,
-        Material.NETHERITE_PICKAXE,
-        Material.STONE_PICKAXE,
-        Material.WOODEN_PICKAXE,
-    )
-
-    private val Block.isOre: Boolean
-        get() = ores.contains(type)
-
-    private val ores = listOf(
-        Material.COAL_ORE,
-        Material.COPPER_ORE,
-        Material.DEEPSLATE_COAL_ORE,
-        Material.DEEPSLATE_COPPER_ORE,
-        Material.DEEPSLATE_DIAMOND_ORE,
-        Material.DEEPSLATE_EMERALD_ORE,
-        Material.DEEPSLATE_GOLD_ORE,
-        Material.DEEPSLATE_IRON_ORE,
-        Material.DEEPSLATE_LAPIS_ORE,
-        Material.DEEPSLATE_REDSTONE_ORE,
-        Material.DIAMOND_ORE,
-        Material.EMERALD_ORE,
-        Material.GLOWSTONE,
-        Material.GOLD_ORE,
-        Material.IRON_ORE,
-        Material.LAPIS_ORE,
-        Material.NETHER_GOLD_ORE,
-        Material.NETHER_QUARTZ_ORE,
-        Material.OBSIDIAN,
-        Material.REDSTONE_ORE,
-    )
+    private val Block.isSupportOre: Boolean
+        get() = config.isSupportOre(type)
 
     private fun Block.getRelativeBlocks(distance: Int): List<Block> {
         val blocks = mutableListOf<Block>()
@@ -152,18 +121,4 @@ class Miner : JavaPlugin(), Listener {
         }
         return blocks
     }
-
-    private fun FileConfiguration.load() {
-        addDefaults(mapOf(
-            ConfigKey.DISPLAY_MINING_DATA.name to false,
-        ))
-        options().copyDefaults(true)
-        saveConfig()
-    }
-
-    private fun FileConfiguration.getBoolean(key: ConfigKey) = getBoolean(key.name)
-}
-
-enum class ConfigKey {
-    DISPLAY_MINING_DATA,
 }
