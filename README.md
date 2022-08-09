@@ -12,6 +12,8 @@ https://user-images.githubusercontent.com/18133161/183315923-69ccf72e-8aa6-4b4c-
 - Drop the items to the player's position
 - Drop the experience orbs to the player's position
 - Do not run during sneak
+- Can change supported ores by config
+- Can change supported pickaxes by config
 
 ## Default Ores
 
