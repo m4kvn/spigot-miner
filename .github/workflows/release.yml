@@ -17,11 +17,9 @@ jobs:
           distribution: 'adopt'
       - name: Download BuildTools.jar
         run: wget -O ./server/BuildTools.jar https://hub.spigotmc.org/jenkins/job/BuildTools/lastSuccessfulBuild/artifact/target/BuildTools.jar
-      - name: Create CraftBukkit jar
-        run: java -jar BuildTools.jar --rev 1.19 --compile craftbukkit
+      - name: Initialize repositories
+        run: java -jar BuildTools.jar --rev 1.19
         working-directory: ./server
-      - name: Move CraftBukkit.jar to libs
-        run: mv ./server/CraftBukkit/target/craftbukkit-1.19-R0.1-SNAPSHOT.jar ./libs
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
       - name: Build with Gradle
