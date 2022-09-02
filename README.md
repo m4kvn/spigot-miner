@@ -58,6 +58,11 @@ https://user-images.githubusercontent.com/18133161/183315923-69ccf72e-8aa6-4b4c-
 
 Download from [Releases](https://github.com/m4kvn/spigot-miner/releases).
 
+## Forums
+
+- [Miner fr Spigot - Bukkit Plugins - Minecraft - CurseForge](https://www.curseforge.com/minecraft/bukkit-plugins/miner-for-spigot)
+- [spigot-miner | SpigotMC](https://www.spigotmc.org/resources/spigot-miner.104088/)
+
 ## Development
 
 ### Setup
