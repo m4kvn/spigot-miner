@@ -1,0 +1,18 @@
+Properties properties = new Properties()
+def localPropertiesFile = project.rootProject.file('local.properties')
+if (localPropertiesFile.exists()) {
+    properties.load(localPropertiesFile.newDataInputStream())
+}
+ext {
+    versions = [
+            spigot: '1.19-R0.1-SNAPSHOT',
+    ]
+    github = [
+            username: properties.getProperty('GITHUB_ACTOR') ?: System.getenv('GITHUB_ACTOR'),
+            password: properties.getProperty('GITHUB_TOKEN') ?: System.getenv('GITHUB_TOKEN'),
+    ]
+    info = [
+            group: 'com.m4kvn.spigot',
+            version: properties.getProperty('GITHUB_REF_NAME') ?: System.getenv('GITHUB_REF_NAME')
+    ]
+}

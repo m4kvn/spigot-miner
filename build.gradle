@@ -4,16 +4,24 @@ plugins {
     id 'java'
     id 'org.jetbrains.kotlin.jvm' version '1.7.0'
 }
+apply from: 'gradle/properties.gradle'
 
-group = 'com.m4kvn.spigot'
-version = '1.2.0-1.19-R0.1-SNAPSHOT'
+group = info.group
+version = "${info.version}-${versions.spigot}"
 
-sourceCompatibility = '1.8'
-targetCompatibility = '1.8'
+sourceCompatibility = 18
+targetCompatibility = 18
 
 repositories {
     mavenLocal()
     mavenCentral()
+    maven {
+        url = uri('https://maven.pkg.github.com/m4kvn/spigot-nms')
+        credentials {
+            username = github.username
+            password = github.password
+        }
+    }
     maven {
         name = 'spigotmc-repo'
         url = 'https://hub.spigotmc.org/nexus/content/repositories/snapshots/'
@@ -25,9 +33,11 @@ repositories {
 }
 
 dependencies {
-    compileOnly 'org.spigotmc:spigot:1.19-R0.1-SNAPSHOT'
-    compileOnly 'org.apache.logging.log4j:log4j-core:2.18.0'
+    compileOnly "org.spigotmc:spigot:${versions.spigot}"
+    compileOnly "org.apache.logging.log4j:log4j-core:2.19.0"
+    compileOnly "org.yaml:snakeyaml:1.33"
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
+    implementation "com.github.m4kvn:spigot-nms:1.0.6"
 }
 
 processResources {
