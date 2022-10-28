@@ -1,7 +1,6 @@
 package com.m4kvn.spigot.miner
 
-import com.m4kvn.spigot.miner.nms.NMS
-import com.m4kvn.spigot.miner.nms.NMS_V1_19_R1
+import com.github.m4kvn.spigotnms.Nms
 import org.bukkit.block.Block
 import org.bukkit.entity.Player
 import org.bukkit.event.EventHandler
@@ -18,8 +17,8 @@ class Miner : JavaPlugin(), Listener {
     private val messenger by lazy {
         Messenger(plugin = this)
     }
-    private val nms: NMS by lazy {
-        NMS_V1_19_R1()
+    private val nms: Nms by lazy {
+        Nms.instance
     }
     private val config by lazy {
         MinerConfiguration(plugin = this)
